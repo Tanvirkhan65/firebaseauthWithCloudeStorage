@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+/* eslint-disable import/extensions */
+import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Home from './components/Home';
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
+import Signup from './components/Signup.js';
+import { UserAuthContextProvider } from './context/UserAuthContext';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+    <Container>
+        <Row>
+            <Col>
+                <UserAuthContextProvider>
+                    <Routes>
+                        <Route
+                            path="/home"
+                            element={
+                                <ProtectedRoute>
+                                    <Home />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route path="/" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                    </Routes>
+                </UserAuthContextProvider>
+            </Col>
+        </Row>
+    </Container>
+);
 
 export default App;
